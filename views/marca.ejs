@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Coches</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Bitter:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:200,300,400,700&amp;display=swap">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/fonts/line-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/Footer-Basic.css">
+    <link rel="stylesheet" href="assets/css/Footer-Dark.css">
+    <link rel="stylesheet" href="assets/css/Header-Dark.css">
+    <link rel="stylesheet" href="assets/css/Login-Form-Dark.css">
+    <link rel="stylesheet" href="assets/css/Navigation-Clean.css">
+    <link rel="stylesheet" href="assets/css/stars.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-light navbar-expand-md navigation-clean" style="background: rgb(40,45,50);border-color: var(--bs-pink);color: rgb(240,249,255);">
+            <div class="container"><a class="navbar-brand" onclick="buscar()">ENCUENTRA TU COCHE IDEAL</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1" style="color: rgb(240,249,255);">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item"></li>
+                        <li class="nav-item"><a class="nav-link" onclick="puntuados()" style="color: rgb(240,249,255);">Coches Puntuados</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/" style="color: rgb(240,249,255);">Inicio</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="d-flex" style="background: var(--bs-gray-300);margin-bottom: 0px;margin-right: 0px;margin-top: 0px;">
+            <h2 style="background: var(--bs-gray-300);margin: 0px;margin-right: 2px;margin-top: 25px;margin-bottom: 25px;margin-left: 25px;width: 750.5px;">
+                <% if(coches.length !=0){ %>
+                    Aquí están algunos coches de <%=marca%> que todavía no has puntuado</h2>
+                <% }else{ %>
+                    No hay más coches disponibles de <%=marca%></h2>
+                <% } %> 
+            <div class="d-flex" style="padding-right: 1px;margin-right: 0px;margin-left: 750px;width: 50.5px;"><button disabled id="botonBuscar" class="btn btn-dark justify-content-start" type="button" style="width: 144.5px;margin: 0px;margin-left: -82px;padding-top: 0px;margin-right: 0px;padding-right: 11px;margin-top: 25px;margin-bottom: 25px;background: rgb(0,42,84);font-size: 18px;height: 50px;padding-bottom: 6px;padding-left: 12px;" onclick="window.location.reload();">Ya he puntuado</button></div>
+        </div>
+    </header>
+    <div class="card" style="height: 638px;background: #ffffff;">
+        <div class="card-header" style="background: var(--bs-body-bg);">
+            <ul class="nav nav-tabs card-header-tabs">
+                <% coches.forEach(function(coche, i) { %>
+                    <% if(i===0){ %>
+                        <li class="nav-item"><a class="nav-link active" id="nav<%=i+1%>" onclick="Prueba(<%=i+1%>,<%=coches.length%>)"><%= coche.model %><br></a></li>
+                    <% }else{ %>
+                        <li class="nav-item"><a class="nav-link" id="nav<%=i+1%>" onclick="Prueba(<%=i+1%>,<%=coches.length%>)"><%= coche.model %></a></li>
+                    <% } %>          
+                <% });%>
+            </ul>
+        </div>
+        <% coches.forEach(function(coche, i) { %>
+            <% if(i===0){ %>
+                <div class="card-body" id="coche1" style="height: 705px;width: 935px;">
+            <% }else{ %>
+                <div class="card-body d-none" id="coche<%=i+1%>" style="height: 705px;width: 935px;">
+            <% } %>   
+            <h4 class="card-title"><%= coche.version %><br></h4>
+            <div class="table-responsive" style="width: 392px;margin-right: 0px;margin-left: 0px;padding-left: 0;padding-bottom: 0;padding-right: 13px;">
+                <table class="table">
+                    <thead>
+                        <tr></tr>
+                    </thead>
+
+                    <tbody style="border-top-width: 0px;">
+                        <tr>
+                            <td style="width: 263px;border-width: 1px;border-color: rgb(0,0,0);font-weight: bold;">Cambio</td>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);"><%= coche.change %></td>
+                        </tr>
+                        <tr>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);font-weight: bold;">Puertas</td>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);"><%= coche.doors %></td>
+                        </tr>
+                        <tr>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);font-weight: bold;">Color</td>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);"><%= coche.color %></td>
+                        </tr>
+                        <tr>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);font-weight: bold;">Combustible</td>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);"><%= coche.fuel %></td>
+                        </tr>
+                        <tr>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);font-weight: bold;">Kilómetros</td>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);"><%= coche.kms %></td>
+                        </tr>
+                        <tr>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);font-weight: bold;">Año de fabricación</td>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);"><%= coche.year %></td>
+                        </tr>
+                        <tr>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);font-weight: bold;">Precio</td>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);"><%= coche.price %></td>
+                        </tr>
+                        <tr>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);font-weight: bold;">Potencia en CV</td>
+                            <td style="border-width: 1px;border-color: rgb(0,0,0);"><%= coche.power %></td>
+                        </tr>
+                    </tbody>    
+
+                </table>
+            </div><div class="rate">
+    <input type="radio" id="star5-<%=i+1%>" name="rate" value="5">
+    <label for="star5-<%=i+1%>" title="5"></label>
+    <input type="radio" id="star4-<%=i+1%>" name="rate" value="4">
+    <label for="star4-<%=i+1%>" title="4"></label>
+    <input type="radio" id="star3-<%=i+1%>" name="rate" value="3">
+    <label for="star3-<%=i+1%>" title="3"></label>
+    <input type="radio" id="star2-<%=i+1%>" name="rate" value="2">
+    <label for="star2-<%=i+1%>" title="2"></label>
+    <input type="radio" id="star1-<%=i+1%>" name="rate" value="1">
+    <label for="star1-<%=i+1%>" title="1"></label>
+  </div>
+
+    <button type="button" class="<%=coche.id%>" id="boton<%=i+1%>" onclick="Puntua(<%=i+1%>)">Puntuar</button>
+</div>
+        <% });%>
+        <footer class="footer-dark" style="background: rgb(40, 45, 50);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>Enlaces de interés</h3>
+                        <ul>
+                            <li><a href="https://datamarket.es/#coches-de-segunda-mano-dataset">Conjunto de datos</a></li>
+                            <li><a href="#">Código fuente</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>Sobre mí</h3>
+                        <ul>
+                            <li><a href="#">Github</a></li>
+                            <li><a href="#">Linkedin</a></li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 item text">
+                        <h3>Business Intelligence</h3>
+                        <p style="color: rgb(240, 249, 255);">Esta aplicación ha sido desarrollada en el entorno de un trabajo para la asignatura de la Universidad de León. La base de datos que se usa es Neo4j basada en grafos.</p>
+                    </div>
+                </div>
+                <p class="copyright">Alejandro Pérez Fernández 2021</p>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>
