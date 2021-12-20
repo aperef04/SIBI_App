@@ -29,18 +29,6 @@ app.get("/", function (req, res) {
   });
 });
 
-app.post("/coches", function (req, res) {
-  var respuesta;
-  let query = "MATCH (n:Car) RETURN n LIMIT 1";
-  session
-    .readTransaction((tx) => tx.run(query))
-    .then(function (result) {
-      console.log(result.records[0]._fields[0].properties.change);
-
-      respuesta = result.records[0]._fields[0].properties;
-      res.send(respuesta);
-    });
-});
 
 app.post("/sign_in", function (req, res) {
   let query =
@@ -172,23 +160,12 @@ app.post("/rate", function (req, res) {
   res.send("ok");
 });
 
-app.post("/algoritmo", async function (req, res) {
-  let items1 = await contenido("Ap25");
-  let items2 = await colaborativo("Ap25");
-  console.log(items1);
-  console.log(items2);
-  let resultado = hibrido(items1, items2);
-  console.log(resultado);
-  res.send("Ok");
-});
-
 async function algoritmo(user) {
   let items1 = await contenido(user);
   let items2 = await colaborativo(user);
   console.log(items1);
   console.log(items2);
-  let resultado = hibrido(items1, items2);
-  return resultado;
+  return hibrido(items1, items2);
 }
 
 // Algoritmo basado en contenido
@@ -439,38 +416,7 @@ async function colaborativo(user) {
   let items = getSimilarityColaborative(matriz, pearson);
   return items;
 }
-/*
-function getSimilarityColaborative(matriz, pearson) {
-  let items = [];
-  for (let i = 0; i < pearson.length && i < 10; i++) {
-    let pos = pearson[i].pos;
-    for (let j = 1; j < matriz[pos].length - 1; j++) {
-      if (matriz[1][j] == 0 && matriz[pos][j] != 0 && pearson[i].score > 0) {
-        let prediccion =
-          matriz[1][matriz[1].length - 1] +
-          ((matriz[pos][j] - matriz[pos][matriz[pos].length - 1]) *
-            pearson[i].score) /
-            pearson[i].score;
-        if (prediccion > 5) prediccion = 5;
-        if (prediccion < 0) prediccion = 0;
-        prediccion /= 5;
-        items.push({ similarity: prediccion, id: matriz[0][j] });
-      }
-    }
-  }
 
-  items.sort(function (a, b) {
-    if (a.similarity > b.similarity) {
-      return -1;
-    }
-    if (a.similarity < b.similarity) {
-      return 1;
-    }
-    return 0;
-  });
-
-  return items;
-}*/
 
 function getSimilarityColaborative(matriz, pearson) {
   let items = [];
@@ -639,7 +585,18 @@ async function crearUsuario() {
   let password = "12345";
   await session.run(query, { user, nombre, password });
 }
+app.post("/coches", function (req, res) {
+  var respuesta;
+  let query = "MATCH (n:Car) RETURN n LIMIT 1";
+  session
+    .readTransaction((tx) => tx.run(query))
+    .then(function (result) {
+      console.log(result.records[0]._fields[0].properties.change);
 
+      respuesta = result.records[0]._fields[0].properties;
+      res.send(respuesta);
+    });
+});
 async function getAllUsers2() {
   let res = [];
   let query =
