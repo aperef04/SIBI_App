@@ -1,0 +1,49 @@
+LOAD CSV WITH HEADERS
+FROM 'file:///CochesModificados.csv'
+AS row
+FIELDTERMINATOR ';'
+MERGE (c:Car {id: toInteger(row.carId)})
+    ON CREATE SET
+          c.model = row.model,
+          c.version = row.version,
+          c.year = toInteger(row.year),
+          c.price = toInteger(row.price),
+          c.fuel = row.fuel,
+          c.kms = toInteger(row.kms),
+          c.power = toInteger(row.power),
+          c.doors = toInteger(row.doors),
+          c.change = row.change,
+          c.color = row.color
+
+
+LOAD CSV WITH HEADERS
+FROM 'file:///CochesModificados.csv'
+AS row
+FIELDTERMINATOR ";"
+MERGE (m:Make {name: row.make})
+    ON CREATE SET
+          m.name = row.make
+
+LOAD CSV WITH HEADERS
+FROM 'file:///CochesModificados.csv'
+AS row
+FIELDTERMINATOR ';'
+MATCH (car:Car {id: toInteger(row.carId)})
+MATCH (make:Make {name: row.make})
+MERGE (car)-[:ISFROM]->(make)
+
+LOAD CSV WITH HEADERS
+FROM 'file:///CochesModificados.csv'
+AS row
+FIELDTERMINATOR ';'
+MERGE (m:Province {name: row.province})
+    ON CREATE SET
+          m.name = row.province
+
+LOAD CSV WITH HEADERS
+FROM 'file:///CochesModificados.csv'
+AS row
+FIELDTERMINATOR ';'
+MATCH (car:Car {id: toInteger(row.carId)})
+MATCH (province:Province {name: row.province})
+MERGE (car)-[:SELL_IN]->(province)
