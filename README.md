@@ -7,4 +7,5 @@ Existen 3 directorios en el repositorio:
 * **Documentación:** Memoria y presentación del proyecto y dos vídeos en los que se hace la presentación y otro que se muestra la aplicación
 * **Datos:** Contiene los datos que tras el procesamiento se añadieron a la base de datos
 Para alguna duda contactar conmingo.
+
 Correo: aperef04@estudiantes.unileon.es
